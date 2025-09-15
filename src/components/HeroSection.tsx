@@ -15,9 +15,9 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-black/30"></div>
       
       <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
-        <div className="bg-primary/90 p-8 rounded-lg backdrop-blur-sm">
+        <div className="bg-black/60 p-8 rounded-lg">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Empowering children with autism
+            <span className="text-secondary">Empowering</span> children with autism
           </h1>
           <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
             Dedicated to compassionate and personalized support for children on the autism spectrum. Our mission is to foster their growth, development, and well-being through specialized programs and care.
