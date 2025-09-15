@@ -2,18 +2,20 @@ import momTeachingKids from "@/assets/mom-teaching-kids.webp";
 
 const UnderstandingABASection = () => {
   return (
-    <section className="py-16 px-6">
+    <section className="py-16 px-6 bg-gray-100">
       <div className="container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
-          <div>
+        <div className="relative">
+          {/* Image container with rounded corners */}
+          <div className="relative">
             <img 
               src={momTeachingKids} 
               alt="Mother teaching children with autism therapy" 
-              className="w-full h-auto rounded-lg shadow-lg"
+              className="w-full max-w-2xl h-auto rounded-2xl shadow-lg"
             />
           </div>
           
-          <div className="bg-primary p-8 rounded-lg text-primary-foreground">
+          {/* Overlaid content box */}
+          <div className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-primary p-8 rounded-2xl text-primary-foreground shadow-xl max-w-2xl w-full lg:w-3/5">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Understanding ABA Therapy
             </h2>
