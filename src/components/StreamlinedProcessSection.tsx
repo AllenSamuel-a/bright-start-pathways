@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const StreamlinedProcessSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const waveRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const steps = [
     {
@@ -90,6 +91,18 @@ const StreamlinedProcessSection = () => {
     };
   }, [isVisible]);
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % Math.max(1, steps.length - 2));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + Math.max(1, steps.length - 2)) % Math.max(1, steps.length - 2));
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
   return (
     <>
       {/* Wave transition from previous section */}
@@ -128,37 +141,66 @@ const StreamlinedProcessSection = () => {
             </div>
           </div>
 
-          {/* Process Steps */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
-            {steps.map((step, index) => (
-              <div key={index} className="relative">
-                <div className={`rounded-lg p-6 h-full min-h-[300px] flex flex-col ${
-                  step.type === 'yellow' 
-                    ? 'bg-yellow-400 text-gray-900' 
-                    : 'bg-blue-800 text-white'
-                }`}>
-                  <div className="text-sm font-medium mb-2 opacity-70">
-                    Step {step.number}
+          {/* Carousel Container */}
+          <div className="relative mb-16">
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-6 h-6 text-white" />
+            </button>
+            
+            <button
+              onClick={nextSlide}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-6 h-6 text-white" />
+            </button>
+
+            {/* Cards Container */}
+            <div className="overflow-hidden mx-12">
+              <div 
+                className="flex transition-transform duration-300 ease-in-out gap-6"
+                style={{ transform: `translateX(-${currentSlide * (100 / 3)}%)` }}
+              >
+                {steps.map((step, index) => (
+                  <div key={index} className="flex-shrink-0 w-1/3">
+                    <div className={`rounded-lg p-8 h-full min-h-[400px] flex flex-col ${
+                      step.type === 'yellow' 
+                        ? 'bg-yellow-400 text-gray-900' 
+                        : 'bg-blue-800 text-white'
+                    }`}>
+                      <div className="text-sm font-medium mb-4 opacity-70">
+                        Step {step.number}
+                      </div>
+                      
+                      <h3 className="text-xl font-bold mb-6 leading-tight">
+                        {step.title}
+                      </h3>
+                      
+                      <p className="text-sm leading-relaxed flex-grow whitespace-pre-line">
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
-                  
-                  <h3 className="text-lg font-bold mb-4 leading-tight">
-                    {step.title}
-                  </h3>
-                  
-                  <p className="text-sm leading-relaxed flex-grow whitespace-pre-line">
-                    {step.description}
-                  </p>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
 
           {/* Navigation dots */}
           <div className="flex justify-center gap-2 mb-8">
-            {[0, 1, 2, 3, 4].map((dot) => (
-              <div
-                key={dot}
-                className="w-2 h-2 rounded-full bg-white/30"
+            {Array.from({ length: Math.max(1, steps.length - 2) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  currentSlide === index ? 'bg-white' : 'bg-white/30'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
