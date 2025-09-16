@@ -51,7 +51,7 @@ const ComprehensiveServicesSection = () => {
           <div>
             <img 
               src="/src/assets/67af3f916d58d2b8079ce30e_Center based therapy.jpg"
-              alt="Child and therapist playing with colorful blocks in therapy center" 
+              alt="Mother teaching children at home learning environment" 
               className="w-full h-auto rounded-lg shadow-lg"
             />
           </div>
