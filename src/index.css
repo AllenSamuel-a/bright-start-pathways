@@ -102,4 +102,37 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Wave animation styles */
+  .wave-animation {
+    animation: waveMove 3s ease-in-out infinite;
+  }
+
+  @keyframes waveMove {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .wave-divider svg,
+  .wave-divider-bottom svg {
+    transition: transform 0.3s ease;
+  }
+
+  .wave-animation .wave-divider svg,
+  .wave-animation .wave-divider-bottom svg {
+    animation: waveFloat 2s ease-in-out infinite;
+  }
+
+  @keyframes waveFloat {
+    0%, 100% {
+      transform: translateY(0) scaleY(1);
+    }
+    50% {
+      transform: translateY(-5px) scaleY(1.1);
+    }
+  }
 }
