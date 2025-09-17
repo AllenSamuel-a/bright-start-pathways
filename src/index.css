@@ -129,10 +129,26 @@ All colors MUST be HSL.
 
   @keyframes waveFloat {
     0%, 100% {
-      transform: translateY(0) scaleY(1);
+      transform: translateY(0px) scale(1);
     }
     50% {
-      transform: translateY(-5px) scaleY(1.1);
+      transform: translateY(-10px) scale(1.02);
     }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+      transform: translateY(-8px) rotate(1deg);
+    }
+    66% {
+      transform: translateY(4px) rotate(-1deg);
+    }
+  }
+
+  .animate-wave-flow {
+    animation: waveFloat 4s ease-in-out infinite;
   }
 }

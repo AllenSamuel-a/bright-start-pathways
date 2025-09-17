@@ -3,6 +3,82 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const StreamlinedProcessSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const sectionRef = useRef<SVGSVGElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const wavePathRef = useRef<SVGPathElement>(null);
+
+  useEffect(() => {
+    const currentRef = sectionRef.current;
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px"
+      }
+    );
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  // Enhanced flowing wave animation effect
+  useEffect(() => {
+    if (!isVisible || !wavePathRef.current) return;
+
+    let animationId: number;
+    let startTime = Date.now();
+
+    const animateWave = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = (elapsed / 3000) % 1; // 3 second cycle for smoother flow
+      
+      // Create breathing, living wave effect
+      const baseHeight = 3.27772;
+      const maxHeight = 4;
+      const heightVariation = (maxHeight - baseHeight) * (Math.sin(progress * Math.PI * 2) * 0.5 + 0.5);
+      const currentHeight = baseHeight + heightVariation;
+      
+      // Add subtle morphing to the wave path
+      const waveIntensity = 0.3 + 0.2 * Math.sin(progress * Math.PI * 4);
+      const waveOffset = 50 * Math.sin(progress * Math.PI * 2);
+      
+      if (wavePathRef.current && wavePathRef.current.parentElement) {
+        const svg = wavePathRef.current.parentElement;
+        
+        // Apply the height with will-change for performance
+        svg.style.willChange = 'width, height';
+        svg.style.height = `${currentHeight}rem`;
+        
+        // Create dynamic wave path that breathes and flows
+        const newPath = `M0,${60 + waveOffset * waveIntensity} C${360 + waveOffset},${60 - waveOffset * waveIntensity} ${720 - waveOffset},${60 + waveOffset * waveIntensity} 1440,${60 - waveOffset * waveIntensity * 0.5} L1440,120 L0,120 Z`;
+        wavePathRef.current.setAttribute('d', newPath);
+      }
+
+      animationId = requestAnimationFrame(animateWave);
+    };
+
+    // Start animation after a brief delay for smooth entry
+    const timeoutId = setTimeout(animateWave, 300);
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      clearTimeout(timeoutId);
+    };
+  }, [isVisible]);
 
   const steps = [
     {
@@ -54,11 +130,16 @@ const StreamlinedProcessSection = () => {
       {/* Wave transition from previous section */}
       <div className="relative">
         <svg
-          className="w-full h-16 fill-primary"
+          ref={sectionRef}
+          className="w-full h-16 fill-primary transition-all duration-1000 ease-out"
           viewBox="0 0 1440 120"
           preserveAspectRatio="none"
+          style={{ willChange: 'width, height' }}
         >
-          <path d="M0,0 C480,120 960,120 1440,0 L1440,120 L0,120 Z" />
+          <path 
+            ref={wavePathRef}
+            d="M0,0 C480,120 960,120 1440,0 L1440,120 L0,120 Z" 
+          />
         </svg>
       </div>
 

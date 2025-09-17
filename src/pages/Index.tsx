@@ -4,6 +4,7 @@ import ScrollingTicker from "@/components/ScrollingTicker";
 import ABATherapySection from "@/components/ABATherapySection";
 import UnderstandingABASection from "@/components/UnderstandingABASection";
 import ComprehensiveServicesSection from "@/components/ComprehensiveServicesSection";
+import UnderstandingAutismSection from "@/components/UnderstandingAutismSection";
 import StreamlinedProcessSection from "@/components/StreamlinedProcessSection";
 
 const Index = () => {
@@ -15,6 +16,7 @@ const Index = () => {
       <ABATherapySection />
       <UnderstandingABASection />
       <ComprehensiveServicesSection />
+      <UnderstandingAutismSection />
       <StreamlinedProcessSection />
     </div>
   );
