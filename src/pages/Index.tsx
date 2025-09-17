@@ -6,6 +6,7 @@ import UnderstandingABASection from "@/components/UnderstandingABASection";
 import ComprehensiveServicesSection from "@/components/ComprehensiveServicesSection";
 import UnderstandingAutismSection from "@/components/UnderstandingAutismSection";
 import StreamlinedProcessSection from "@/components/StreamlinedProcessSection";
+import TelehealthSection from "@/components/TelehealthSection";
 
 const Index = () => {
   return (
@@ -16,6 +17,7 @@ const Index = () => {
       <ABATherapySection />
       <UnderstandingABASection />
       <ComprehensiveServicesSection />
+      <TelehealthSection />
       <UnderstandingAutismSection />
       <StreamlinedProcessSection />
     </div>

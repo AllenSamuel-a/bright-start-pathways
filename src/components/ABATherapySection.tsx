@@ -23,29 +23,29 @@ const ABATherapySection = () => {
               </p>
             </div>
             
-            <Button size="lg" variant="secondary" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold px-8 py-3">
+            <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold px-8 py-3 rounded-full">
               Get in touch
             </Button>
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-6">
               <img 
                 src={momTeaching} 
                 alt="Mother teaching child with autism" 
-                className="w-full h-48 object-cover rounded-lg"
+                className="w-full h-56 object-cover rounded-2xl shadow-lg"
               />
               <img 
                 src={kidLearning} 
                 alt="Child learning with educational materials" 
-                className="w-full h-64 object-cover rounded-lg"
+                className="w-full h-72 object-cover rounded-2xl shadow-lg"
               />
             </div>
-            <div className="pt-8">
+            <div className="pt-12">
               <img 
                 src={momTeaching2} 
                 alt="Therapist working with child" 
-                className="w-full h-80 object-cover rounded-lg"
+                className="w-full h-96 object-cover rounded-2xl shadow-lg"
               />
             </div>
           </div>
