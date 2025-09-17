@@ -8,6 +8,9 @@ const StreamlinedProcessSection = () => {
   const leftWaveRef = useRef<HTMLDivElement>(null);
   const rightWaveRef = useRef<HTMLDivElement>(null);
 
+  // Debug log to ensure component is using latest version
+  console.log("StreamlinedProcessSection loaded - using leftWaveRef and rightWaveRef");
+
   useEffect(() => {
     const currentRef = sectionRef.current;
     
