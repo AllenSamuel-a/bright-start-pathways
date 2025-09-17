@@ -3,9 +3,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const StreamlinedProcessSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const sectionRef = useRef<SVGSVGElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const wavePathRef = useRef<SVGPathElement>(null);
+  const leftWaveRef = useRef<HTMLDivElement>(null);
+  const rightWaveRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const currentRef = sectionRef.current;
@@ -35,7 +36,7 @@ const StreamlinedProcessSection = () => {
 
   // Enhanced flowing wave animation effect
   useEffect(() => {
-    if (!isVisible || !wavePathRef.current) return;
+    if (!isVisible || !leftWaveRef.current || !rightWaveRef.current) return;
 
     let animationId: number;
     let startTime = Date.now();
@@ -45,25 +46,17 @@ const StreamlinedProcessSection = () => {
       const progress = (elapsed / 3000) % 1; // 3 second cycle for smoother flow
       
       // Create breathing, living wave effect
-      const baseHeight = 3.27772;
-      const maxHeight = 4;
+      const baseHeight = 1.57476; // Base height in rem
+      const maxHeight = 3.2; // Max height in rem
       const heightVariation = (maxHeight - baseHeight) * (Math.sin(progress * Math.PI * 2) * 0.5 + 0.5);
       const currentHeight = baseHeight + heightVariation;
       
-      // Add subtle morphing to the wave path
-      const waveIntensity = 0.3 + 0.2 * Math.sin(progress * Math.PI * 4);
-      const waveOffset = 50 * Math.sin(progress * Math.PI * 2);
-      
-      if (wavePathRef.current && wavePathRef.current.parentElement) {
-        const svg = wavePathRef.current.parentElement;
-        
-        // Apply the height with will-change for performance
-        svg.style.willChange = 'width, height';
-        svg.style.height = `${currentHeight}rem`;
-        
-        // Create dynamic wave path that breathes and flows
-        const newPath = `M0,${60 + waveOffset * waveIntensity} C${360 + waveOffset},${60 - waveOffset * waveIntensity} ${720 - waveOffset},${60 + waveOffset * waveIntensity} 1440,${60 - waveOffset * waveIntensity * 0.5} L1440,120 L0,120 Z`;
-        wavePathRef.current.setAttribute('d', newPath);
+      if (leftWaveRef.current && rightWaveRef.current) {
+        // Apply dynamic height to both wave halves
+        leftWaveRef.current.style.willChange = 'width, height';
+        rightWaveRef.current.style.willChange = 'width, height';
+        leftWaveRef.current.style.height = `${currentHeight}rem`;
+        rightWaveRef.current.style.height = `${currentHeight}rem`;
       }
 
       animationId = requestAnimationFrame(animateWave);
@@ -127,26 +120,33 @@ const StreamlinedProcessSection = () => {
 
   return (
     <>
-      {/* Wave transition from previous section */}
-      <div className="relative">
-        <svg
-          ref={sectionRef}
-          className="w-full h-16 fill-primary transition-all duration-1000 ease-out"
-          viewBox="0 0 1440 120"
-          preserveAspectRatio="none"
-          style={{ willChange: 'width, height' }}
-        >
-          <path 
-            ref={wavePathRef}
-            d="M0,0 C480,120 960,120 1440,0 L1440,120 L0,120 Z" 
-          />
-        </svg>
-      </div>
-
       <section 
-        className="relative py-16 px-6 bg-primary text-primary-foreground overflow-hidden"
+        ref={sectionRef}
+        className="relative bg-primary text-primary-foreground overflow-hidden wave-section"
       >
-        <div className="container mx-auto relative z-10">
+        {/* Wave Divider - Two Mirrored Halves */}
+        <div className="divider relative w-full">
+          <div 
+            ref={leftWaveRef}
+            className="divider---half-2 absolute left-0 top-0 w-1/2 bg-background"
+            style={{ 
+              height: '1.57476rem',
+              willChange: 'width, height',
+              clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)'
+            }}
+          />
+          <div 
+            ref={rightWaveRef}
+            className="divider---half-2 x-right absolute right-0 top-0 w-1/2 bg-background"
+            style={{ 
+              height: '1.57476rem',
+              willChange: 'width, height',
+              clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0% 100%)'
+            }}
+          />
+        </div>
+
+        <div className="container mx-auto relative z-10 py-16 px-6">
           {/* Header */}
           <div className="flex flex-col lg:flex-row gap-8 mb-12">
             <div className="lg:w-1/2">
